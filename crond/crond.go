@@ -1,0 +1,4 @@
+package crond
+
+func Init() {
+}
