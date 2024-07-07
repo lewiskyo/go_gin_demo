@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"go_gin_demo/bo"
 	"go_gin_demo/cache"
-	"go_gin_demo/model.go"
+	"go_gin_demo/model"
 	"go_gin_demo/utils"
 	"log"
 	"net/http"
