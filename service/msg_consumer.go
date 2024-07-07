@@ -29,14 +29,14 @@ func InitMsgConsumer() {
 					continue
 				}
 
-				redisClient := cache.Redis()
+				redisClient := cache.GetRedis()
 				if redisClient == nil {
 					log.Printf("get redis instance fail")
 					continue
 				}
 
 				uid := msg.Uid
-				key := fmt.Sprintf("uid:%d", uid)
+				key := fmt.Sprintf("%s:%d", bo.MSG_KEY_PREFIX, uid)
 				val, err := json.Marshal(msg)
 				if err != nil {
 					log.Printf("msg json encode fail")

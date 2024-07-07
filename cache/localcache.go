@@ -11,14 +11,20 @@ type Cache struct {
 	CM *gcache.Cache
 }
 
-var cache Cache
-var once sync.Once
+// 定义全局变量和互斥锁
+var (
+	once  sync.Once
+	cache *Cache
+)
 
-func LocalCache() (*Cache, error) {
+func InitLocalCache() {
 	once.Do(func() {
-		gcache := gcache.New(5*time.Minute, 10*time.Minute)
-
-		cache.CM = gcache
+		c := gcache.New(5*time.Minute, 10*time.Minute)
+		cache = new(Cache)
+		cache.CM = c
 	})
-	return &cache, nil
+}
+
+func GetLocalCache() *Cache {
+	return cache
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go_gin_demo/bo"
 	"go_gin_demo/cache"
+	"go_gin_demo/model.go"
 	"go_gin_demo/utils"
 	"log"
 	"net/http"
@@ -58,9 +59,10 @@ func (ctl *BaseController) Report(ctx *gin.Context) {
 
 	utils.MsgQueue.Enqueue(msg)
 
-	localCache, _ := cache.LocalCache()
-	key := fmt.Sprintf("uid:%d", req.Uid)
+	localCache := cache.GetLocalCache()
+	key := fmt.Sprintf("%s:%d", bo.MSG_KEY_PREFIX, req.Uid)
 	localCache.CM.Add(key, msg, 60*time.Second)
+	model.InsertMsg(msg)
 
 	ctx.JSON(http.StatusOK, ReportRsp{Code: 0, Message: "ok"})
 }
